@@ -1,17 +1,28 @@
-﻿生成启动时间为 2019/9/29 16:35:38。
+﻿生成启动时间为 2019/9/30 10:48:09。
      1>项目“E:\workcopy\basedm-git\Toddler\windows-crypto\build\basedm\basedm.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“Debug\basedm.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        ClCompile:
          所有输出均为最新。
-         所有输出均为最新。
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"E:\workcopy\basedm-git\Toddler\windows-crypto\build\basedm\..\..\src" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _MBCS /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\basedm.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\bdm_crypto.cpp
+         bdm_crypto.cpp
+     1>e:\workcopy\basedm-git\toddler\windows-crypto\src\bdm_crypto.cpp(57): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+     1>e:\workcopy\basedm-git\toddler\windows-crypto\src\bdm_crypto.cpp(64): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+     1>e:\workcopy\basedm-git\toddler\windows-crypto\src\bdm_crypto.cpp(159): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+     1>e:\workcopy\basedm-git\toddler\windows-crypto\src\bdm_crypto.cpp(166): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
        ResourceCompile:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _DEBUG /D _AFXDLL /l"0x0804" /IDebug\ /nologo /fo"Debug\basedm.res" basedm.rc 
+         所有输出均为最新。
        ManifestResourceCompile:
          所有输出均为最新。
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\workcopy\basedm-git\Toddler\windows-crypto\build\basedm\Debug\basedm.exe" /INCREMENTAL /NOLOGO /MANIFEST /ManifestFile:"Debug\basedm.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\workcopy\basedm-git\Toddler\windows-crypto\build\basedm\Debug\basedm.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\workcopy\basedm-git\Toddler\windows-crypto\build\basedm\Debug\basedm.lib" /MACHINE:X86 Debug\basedm.res
          Debug\basedm.exe.embed.manifest.res
+         Debug\aes.obj
+         Debug\bdm_crypto.obj
          Debug\basedm.obj
          Debug\basedmDlg.obj
          Debug\stdafx.obj
@@ -28,4 +39,4 @@
 
 生成成功。
 
-已用时间 00:00:01.00
+已用时间 00:00:01.29

@@ -31,10 +31,12 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedStart();
+	afx_msg void OnBnClickedDecrypto();
 
 public:
 	void myDbgOut(int val, const char* info, int infolen);
 
 	CStatic CStatic_Debug_out;
 	CStatic CStatic_local_wnd;
+	CEdit   CEdit_crypto_key;
 };

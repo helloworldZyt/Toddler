@@ -6,6 +6,7 @@
 #include "basedm.h"
 #include "basedmDlg.h"
 #include "afxdialogex.h"
+#include "bdm_crypto.h"
 #include <string>
 
 using namespace std;
@@ -86,6 +87,7 @@ void CbasedmDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LOCALVIEW, CStatic_local_wnd);
 	DDX_Control(pDX, IDC_LOGVIEW, CStatic_Debug_out);
+	DDX_Control(pDX, IDC_CRYPTO_KEY, CEdit_crypto_key);
 }
 
 BEGIN_MESSAGE_MAP(CbasedmDlg, CDialogEx)
@@ -93,6 +95,7 @@ BEGIN_MESSAGE_MAP(CbasedmDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_START, &CbasedmDlg::OnBnClickedStart)
+	ON_BN_CLICKED(IDC_DECRYPTO, &CbasedmDlg::OnBnClickedDecrypto)
 END_MESSAGE_MAP()
 
 
@@ -186,17 +189,45 @@ void CbasedmDlg::myDbgOut(int val, const char* info, int infolen)
 {
 	CString oldTxt;
 	CString cstrResult;
-	cstrResult.Format(_T("val:%d,info:%s\r\n"),val, info);
+	static int ncnt = 0;
+	if (6 < ncnt++)
+	{
+		ncnt = 0;
+		CStatic_Debug_out.SetWindowTextA(_T(""));
+	}
+	cstrResult.Format(_T("val:%d,info:%s len:%d\r\n"),val, info, infolen);
 	CStatic_Debug_out.GetWindowText(oldTxt);
 	oldTxt += cstrResult;
 	CStatic_Debug_out.SetWindowText(oldTxt);
 	return;
 }
 
+void dbg_out(int val, const char* info, int infolen)
+{
+	return g_wnd->myDbgOut(val, info, infolen);
+}
+void progress_crypto(double val)
+{
+	char buf[1024] = {0};
+	sprintf(buf, "%f", val);
+	g_wnd->myDbgOut(0, buf, 0);
+}
 void CbasedmDlg::OnBnClickedStart()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	CString strFilePath;
+	CString strCrK;
+	unsigned char kbuf[16] = "";
+
+	GetDlgItemText(IDC_CRYPTO_KEY, strCrK);
+	string cryptokey = strCrK.GetBuffer();
+	cryptokey = GBToUTF8(cryptokey.c_str());
+
+	if (16 > cryptokey.length())
+	{
+		myDbgOut(-1, "key len error!", cryptokey.length());
+		return;
+	}
 	
 	GetDlgItemText(IDC_SOURCE_FILE, strFilePath);
 	std::string strPathAndFile = strFilePath.GetBuffer();
@@ -206,4 +237,38 @@ void CbasedmDlg::OnBnClickedStart()
 
 	myDbgOut(0, strPathAndFile.c_str(), strPathAndFile.length());
 	myDbgOut(0, strFile.c_str(), strFile.length());
+
+	bdm_set_cb(dbg_out, progress_crypto);
+	memcpy(kbuf, cryptokey.c_str(), 16);
+	bdm_c_file(strPathAndFile.c_str(), kbuf, 16);
+	return;
+}
+
+
+void CbasedmDlg::OnBnClickedDecrypto()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CString strFilePath;
+	CString strCrK;
+	unsigned char kbuf[16] = "";
+
+	GetDlgItemText(IDC_CRYPTO_KEY, strCrK);
+	string cryptokey = strCrK.GetBuffer();
+	cryptokey = GBToUTF8(cryptokey.c_str());
+
+	if (16 > cryptokey.length())
+	{
+		myDbgOut(-1, "key len error!", cryptokey.length());
+		return;
+	}
+
+	GetDlgItemText(IDC_SOURCE_FILE, strFilePath);
+	std::string strPathAndFile = strFilePath.GetBuffer();
+	strPathAndFile = GBToUTF8(strPathAndFile.c_str());
+	int nPos = strPathAndFile.rfind("\\");
+	std::string strFile = strPathAndFile.substr(nPos+1, strPathAndFile.size());
+
+	bdm_set_cb(dbg_out, progress_crypto);
+	memcpy(kbuf, cryptokey.c_str(), 16);
+	bdm_d_file(strPathAndFile.c_str(), kbuf, 16);
 }

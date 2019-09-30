@@ -51,6 +51,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(solutiondir)..\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -99,6 +100,8 @@
     <None Include="res\basedm.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\aes.h" />
+    <ClInclude Include="..\..\src\bdm_crypto.h" />
     <ClInclude Include="basedm.h" />
     <ClInclude Include="basedmDlg.h" />
     <ClInclude Include="Resource.h" />
@@ -106,6 +109,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\aes.cpp" />
+    <ClCompile Include="..\..\src\bdm_crypto.cpp" />
     <ClCompile Include="basedm.cpp" />
     <ClCompile Include="basedmDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
