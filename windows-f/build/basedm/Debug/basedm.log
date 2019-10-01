@@ -1,21 +1,19 @@
-﻿生成启动时间为 2019/9/29 15:11:02。
-     1>项目“E:\workcopy\basedm\windows-f\build\basedm\basedm.vcxproj”在节点 2 上(build 个目标)。
+﻿生成启动时间为 2019/10/2 3:23:49。
+     1>项目“E:\workcopy\basedm-git\Toddler\windows-f\build\basedm\basedm.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“Debug\basedm.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        ClCompile:
          所有输出均为最新。
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\basedm.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt basedm.cpp basedmDlg.cpp
-         basedm.cpp
-         正在生成代码...
-         正在编译...
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _MBCS /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\basedm.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt basedmDlg.cpp
          basedmDlg.cpp
-         正在生成代码...
+     1>e:\workcopy\basedm-git\toddler\windows-f\build\basedm\basedmdlg.cpp(189): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(363) : 参见“_vsnprintf”的声明
        ResourceCompile:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0804" /IDebug\ /nologo /fo"Debug\basedm.res" basedm.rc 
+         所有输出均为最新。
        ManifestResourceCompile:
          所有输出均为最新。
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\workcopy\basedm\windows-f\build\basedm\Debug\basedm.exe" /INCREMENTAL /NOLOGO /MANIFEST /ManifestFile:"Debug\basedm.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\workcopy\basedm\windows-f\build\basedm\Debug\basedm.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\workcopy\basedm\windows-f\build\basedm\Debug\basedm.lib" /MACHINE:X86 Debug\basedm.res
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\workcopy\basedm-git\Toddler\windows-f\build\basedm\Debug\basedm.exe" /INCREMENTAL /NOLOGO /MANIFEST /ManifestFile:"Debug\basedm.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\workcopy\basedm-git\Toddler\windows-f\build\basedm\Debug\basedm.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\workcopy\basedm-git\Toddler\windows-f\build\basedm\Debug\basedm.lib" /MACHINE:X86 Debug\basedm.res
          Debug\basedm.exe.embed.manifest.res
          Debug\basedm.obj
          Debug\basedmDlg.obj
@@ -25,12 +23,12 @@
          所有输出均为最新。
        LinkEmbedManifest:
          所有输出均为最新。
-         basedm.vcxproj -> E:\workcopy\basedm\windows-f\build\basedm\Debug\basedm.exe
+         basedm.vcxproj -> E:\workcopy\basedm-git\Toddler\windows-f\build\basedm\Debug\basedm.exe
        FinalizeBuildStatus:
          正在删除文件“Debug\basedm.unsuccessfulbuild”。
          正在对“Debug\basedm.lastbuildstate”执行 Touch 任务。
-     1>已完成生成项目“E:\workcopy\basedm\windows-f\build\basedm\basedm.vcxproj”(build 个目标)的操作。
+     1>已完成生成项目“E:\workcopy\basedm-git\Toddler\windows-f\build\basedm\basedm.vcxproj”(build 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:01.81
+已用时间 00:00:01.06

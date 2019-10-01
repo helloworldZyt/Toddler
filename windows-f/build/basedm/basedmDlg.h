@@ -29,4 +29,14 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedStart();
+	afx_msg void OnBnClickedDoit();
+
+	void myDbgOut(const char* s);
+public:
+	CStatic CStatic_Local_View;
+	CStatic CStatic_Log_View;
+	CEdit   CEdit_Input0;
+	CEdit   CEdit_Input1;
 };
