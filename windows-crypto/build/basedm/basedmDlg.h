@@ -34,12 +34,13 @@ public:
 	afx_msg void OnBnClickedDecrypto();
 
 public:
-	void myDbgOut(int val, const char* info, int infolen);
 	void myDbgOut0(const char* s);
 
-	CStatic CStatic_Debug_out;
+	//CStatic CStatic_Debug_out;
 	CStatic CStatic_local_wnd;
 	CEdit   CEdit_crypto_key;
+	CEdit	CEdit_DbgOut;
 	afx_msg void OnBnClickedStitch();
 	afx_msg void OnBnClickedSliceFile();
+	afx_msg void OnBnClickedClrlog();
 };

@@ -86,8 +86,8 @@ void CbasedmDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LOCALVIEW, CStatic_local_wnd);
-	DDX_Control(pDX, IDC_LOGVIEW, CStatic_Debug_out);
 	DDX_Control(pDX, IDC_CRYPTO_KEY, CEdit_crypto_key);
+	DDX_Control(pDX, IDC_DBGOUT, CEdit_DbgOut);
 }
 
 BEGIN_MESSAGE_MAP(CbasedmDlg, CDialogEx)
@@ -98,6 +98,7 @@ BEGIN_MESSAGE_MAP(CbasedmDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_DECRYPTO, &CbasedmDlg::OnBnClickedDecrypto)
 	ON_BN_CLICKED(IDC_STITCH, &CbasedmDlg::OnBnClickedStitch)
 	ON_BN_CLICKED(IDC_SLICE_FILE, &CbasedmDlg::OnBnClickedSliceFile)
+	ON_BN_CLICKED(IDC_CLRLOG, &CbasedmDlg::OnBnClickedClrlog)
 END_MESSAGE_MAP()
 
 
@@ -187,28 +188,6 @@ HCURSOR CbasedmDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-void CbasedmDlg::myDbgOut(int val, const char* info, int infolen)
-{
-	CString oldTxt;
-	CString cstrResult;
-	static int ncnt = 0;
-	if (6 < ncnt++)
-	{
-		ncnt = 0;
-		CStatic_Debug_out.SetWindowTextA(_T(""));
-	}
-	cstrResult.Format(_T("val:%d,info:%s len:%d\r\n"),val, info, infolen);
-	CStatic_Debug_out.GetWindowText(oldTxt);
-	oldTxt += cstrResult;
-	CStatic_Debug_out.SetWindowText(oldTxt);
-	return;
-}
-
-void dbg_out(int val, const char* info, int infolen)
-{
-	return g_wnd->myDbgOut(val, info, infolen);
-}
-
 void CbasedmDlg::myDbgOut0(const char* s)
 {
 	static int maxline = 0;
@@ -217,27 +196,27 @@ void CbasedmDlg::myDbgOut0(const char* s)
 	if (0==maxline)
 	{
 #ifdef USE_UNICODE
-		CStatic_Debug_out.SetWindowText(_T("first line"));
+		CEdit_DbgOut.SetWindowText(_T("first line"));
 #else
-		CStatic_Debug_out.SetWindowText(_T("first line\n\r\n\r"));
+		CEdit_DbgOut.SetWindowText(_T("first line\n\r\n\r"));
 #endif
 	}
 	maxline++;
 
-	CStatic_Debug_out.GetWindowText(csOld);
+	CEdit_DbgOut.GetWindowText(csOld);
 
 #ifdef USE_UNICODE
 	csNew = "\n\r\n\r";
 	csNew += s;
 #else
-	csNew.Format(_T("%s \n\r\n\r"), s);
+	csNew.Format(_T("%s \r\n"), s);
 #endif
 	csOld += csNew;
-	CStatic_Debug_out.SetWindowText(csOld);
+	CEdit_DbgOut.SetWindowText(csOld);
 	return;
 }
 
-void dbgOut(const char* f, ...)
+void dbgOut(int zeron, const char* f, ...)
 {
 	char outbuf[1024];
 	memset(outbuf, 0, sizeof(outbuf));
@@ -253,7 +232,7 @@ void progress_crypto(double val)
 	//char buf[1024] = {0};
 	//sprintf(buf, "%f", val);
 	//g_wnd->myDbgOut(0, buf, 0);
-	dbgOut("len : %f", val);
+	dbgOut(0, "len : %f", val);
 }
 void CbasedmDlg::OnBnClickedStart()
 {
@@ -268,7 +247,7 @@ void CbasedmDlg::OnBnClickedStart()
 
 	if (16 > cryptokey.length())
 	{
-		myDbgOut(-1, "key len error!", cryptokey.length());
+		dbgOut(0, "OnBnClickedSliceFile key len error! len %d", cryptokey.length());
 		return;
 	}
 	
@@ -278,10 +257,10 @@ void CbasedmDlg::OnBnClickedStart()
 	int nPos = strPathAndFile.rfind("\\");
 	std::string strFile = strPathAndFile.substr(nPos+1, strPathAndFile.size());
 
-	myDbgOut(0, strPathAndFile.c_str(), strPathAndFile.length());
-	myDbgOut(0, strFile.c_str(), strFile.length());
+	dbgOut(0, "file %s len %d", strPathAndFile.c_str(), strPathAndFile.length());
+	dbgOut(0, "file %s len %d", strFile.c_str(), strFile.length());
 
-	bdm_set_cb(dbg_out, progress_crypto);
+	bdm_set_cb(dbgOut, progress_crypto);
 	memcpy(kbuf, cryptokey.c_str(), 16);
 	bdm_c_file(strPathAndFile.c_str(), kbuf, 16);
 	return;
@@ -301,7 +280,7 @@ void CbasedmDlg::OnBnClickedDecrypto()
 
 	if (16 > cryptokey.length())
 	{
-		myDbgOut(-1, "key len error!", cryptokey.length());
+		dbgOut(0, "OnBnClickedSliceFile key len error! len %d", cryptokey.length());
 		return;
 	}
 
@@ -311,7 +290,7 @@ void CbasedmDlg::OnBnClickedDecrypto()
 	int nPos = strPathAndFile.rfind("\\");
 	std::string strFile = strPathAndFile.substr(nPos+1, strPathAndFile.size());
 
-	bdm_set_cb(dbg_out, progress_crypto);
+	bdm_set_cb(dbgOut, progress_crypto);
 	memcpy(kbuf, cryptokey.c_str(), 16);
 	bdm_d_file(strPathAndFile.c_str(), kbuf, 16);
 }
@@ -321,6 +300,29 @@ void CbasedmDlg::OnBnClickedStitch()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	// he bing
+	CString strFilePath;
+	CString strCrK;
+	unsigned char kbuf[16] = "";
+
+	GetDlgItemText(IDC_CRYPTO_KEY, strCrK);
+	string cryptokey = strCrK.GetBuffer();
+	cryptokey = GBToUTF8(cryptokey.c_str());
+
+	if (2 < cryptokey.length())
+	{
+		dbgOut(0, "OnBnClickedSliceFile key len error! len %d", cryptokey.length());
+		return;
+	}
+
+	GetDlgItemText(IDC_SOURCE_FILE, strFilePath);
+	std::string strPathAndFile = strFilePath.GetBuffer();
+	strPathAndFile = GBToUTF8(strPathAndFile.c_str());
+	int nPos = strPathAndFile.rfind("\\");
+	std::string strFile = strPathAndFile.substr(nPos+1, strPathAndFile.size());
+
+	bdm_set_cb(dbgOut, progress_crypto);
+	//bdm_slice_file(strPathAndFile.c_str(), atoi(cryptokey.c_str()));
+	bdm_stitch_file(strPathAndFile.c_str(), atoi(cryptokey.c_str()));
 }
 
 
@@ -338,7 +340,7 @@ void CbasedmDlg::OnBnClickedSliceFile()
 
 	if (2 < cryptokey.length())
 	{
-		myDbgOut(-1, "key len error!", cryptokey.length());
+		dbgOut(0, "OnBnClickedSliceFile key len error! len %d", cryptokey.length());
 		return;
 	}
 
@@ -348,6 +350,14 @@ void CbasedmDlg::OnBnClickedSliceFile()
 	int nPos = strPathAndFile.rfind("\\");
 	std::string strFile = strPathAndFile.substr(nPos+1, strPathAndFile.size());
 
-	bdm_set_cb(dbg_out, progress_crypto);
+	bdm_set_cb(dbgOut, progress_crypto);
 	bdm_slice_file(strPathAndFile.c_str(), atoi(cryptokey.c_str()));
+}
+
+
+void CbasedmDlg::OnBnClickedClrlog()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	//CEdit_DbgOut.Clear();
+	CEdit_DbgOut.SetWindowText(_T(""));
 }

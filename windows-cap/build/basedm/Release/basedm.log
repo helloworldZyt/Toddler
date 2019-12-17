@@ -1,0 +1,30 @@
+﻿生成启动时间为 2019/11/18 22:16:45。
+     1>项目“E:\workcopy\basedm-git\Toddler\windows-cap\build\basedm\basedm.vcxproj”在节点 2 上(build 个目标)。
+     1>InitializeBuildStatus:
+         正在创建“Release\basedm.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         所有输出均为最新。
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"E:\workcopy\basedm-git\Toddler\windows-cap\build\basedm\..\..\src" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D _WINDOWS /D NDEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release\basedm.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\hymedia_cap.cpp
+         hymedia_cap.cpp
+       ResourceCompile:
+         所有输出均为最新。
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\workcopy\basedm-git\Toddler\windows-cap\build\basedm\Release\basedm.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"E:\workcopy\basedm-git\Toddler\windows-cap\build\basedm\..\..\lib" "avcodec-56.lib" "avdevice-56.lib" "avfilter-5.lib" "avformat-56.lib" "avutil-54.lib" winmm.lib ws2_32.lib /MANIFEST /ManifestFile:"Release\basedm.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\workcopy\basedm-git\Toddler\windows-cap\build\basedm\Release\basedm.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\workcopy\basedm-git\Toddler\windows-cap\build\basedm\Release\basedm.lib" /MACHINE:X86 Release\basedm.res
+         Release\bdm_hymedia.obj
+         Release\hymedia_cap.obj
+         Release\basedm.obj
+         Release\basedmDlg.obj
+         Release\stdafx.obj
+         正在生成代码
+         已完成代码的生成
+         basedm.vcxproj -> E:\workcopy\basedm-git\Toddler\windows-cap\build\basedm\Release\basedm.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"E:\workcopy\basedm-git\Toddler\windows-cap\build\basedm\Release\basedm.exe;#1" /manifest Release\basedm.exe.intermediate.manifest "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Include\Manifest\dpiaware.manifest"
+       FinalizeBuildStatus:
+         正在删除文件“Release\basedm.unsuccessfulbuild”。
+         正在对“Release\basedm.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“E:\workcopy\basedm-git\Toddler\windows-cap\build\basedm\basedm.vcxproj”(build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:12.68
