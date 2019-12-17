@@ -3,6 +3,7 @@
 #include "bdm_crypto.h"
 #include <string>
 #include <stdio.h>
+#include <stdint.h>
 #include "aes.h"
 
 using namespace std;
@@ -231,5 +232,78 @@ int bdm_d_file(const char* filepath, const unsigned char* keybuf, int keylen)
 		fclose(srcfp);
 	if (dstfp)
 		fclose(dstfp);
+	return 0;
+}
+
+int bdm_slice_file(const char* filepath, int snum)
+{
+	string str_srcf = "";
+	string str_dstf = "";
+	string digitidx = "0123456789abcdef";
+	int i = 0;
+	if (NULL == filepath || 0 >= snum)
+	{
+		crypto_dbg(-1, "param error!", 0);
+		return -1;
+	}
+	if (digitidx.length() < snum)
+	{
+		crypto_dbg(-1, "slice num big than 16!", 0);
+		return -1;
+	}
+	FILE* pfs = fopen(filepath, "rb");
+	if (NULL == pfs)
+	{
+		crypto_dbg(-2, "fopen", 0);
+		return -2;
+	}
+	
+	long totallen = 0;
+	long steplen = 0;
+	long slicelen = 0;
+	long r_max_len = 0;
+	long r_len = 0;
+	unsigned char * psbuf = NULL;
+	fseek(pfs, 0, SEEK_END);
+	totallen = ftell(pfs);
+	rewind(pfs);
+	if (0 >= totallen)
+	{
+		crypto_dbg(-3, "file len", 0);
+		return -3;
+	}
+	slicelen = totallen/snum + totallen % snum;
+	r_max_len = (slicelen > 104857600)?104857600:slicelen;// 1024*1024*100
+	psbuf = (unsigned char*)malloc(r_max_len);
+	if (NULL == psbuf)
+	{
+		crypto_dbg(-3, "malloc", 0);
+		return -3;
+	}
+	str_srcf = filepath;
+	for(int i = 0; i < snum; i++)
+	{
+		str_dstf = str_srcf + digitidx.at(i);
+		FILE* pfdst = fopen(str_dstf.c_str(), "wb+");
+		if (NULL == pfdst)
+		{
+			crypto_dbg(-3, "fopen dst file", i);
+			break;
+		}
+		for (steplen = 0; steplen < slicelen;)
+		{
+			r_len = fread(psbuf, 1, r_max_len, pfs);
+			if (0 >= r_len)
+			{
+				crypto_dbg(-3, "fread error!", 0);
+				break;
+			}
+			fwrite(psbuf, 1, r_len, pfdst);
+			steplen += r_len;
+		}
+		fclose(pfdst);
+	}
+	free(psbuf);
+	fclose(pfs);
 	return 0;
 }

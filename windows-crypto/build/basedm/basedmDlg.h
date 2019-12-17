@@ -35,8 +35,11 @@ public:
 
 public:
 	void myDbgOut(int val, const char* info, int infolen);
+	void myDbgOut0(const char* s);
 
 	CStatic CStatic_Debug_out;
 	CStatic CStatic_local_wnd;
 	CEdit   CEdit_crypto_key;
+	afx_msg void OnBnClickedStitch();
+	afx_msg void OnBnClickedSliceFile();
 };

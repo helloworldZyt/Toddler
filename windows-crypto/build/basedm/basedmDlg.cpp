@@ -96,6 +96,8 @@ BEGIN_MESSAGE_MAP(CbasedmDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_START, &CbasedmDlg::OnBnClickedStart)
 	ON_BN_CLICKED(IDC_DECRYPTO, &CbasedmDlg::OnBnClickedDecrypto)
+	ON_BN_CLICKED(IDC_STITCH, &CbasedmDlg::OnBnClickedStitch)
+	ON_BN_CLICKED(IDC_SLICE_FILE, &CbasedmDlg::OnBnClickedSliceFile)
 END_MESSAGE_MAP()
 
 
@@ -206,11 +208,52 @@ void dbg_out(int val, const char* info, int infolen)
 {
 	return g_wnd->myDbgOut(val, info, infolen);
 }
+
+void CbasedmDlg::myDbgOut0(const char* s)
+{
+	static int maxline = 0;
+	CString csOld = _T("");
+	CString csNew = _T("");
+	if (0==maxline)
+	{
+#ifdef USE_UNICODE
+		CStatic_Debug_out.SetWindowText(_T("first line"));
+#else
+		CStatic_Debug_out.SetWindowText(_T("first line\n\r\n\r"));
+#endif
+	}
+	maxline++;
+
+	CStatic_Debug_out.GetWindowText(csOld);
+
+#ifdef USE_UNICODE
+	csNew = "\n\r\n\r";
+	csNew += s;
+#else
+	csNew.Format(_T("%s \n\r\n\r"), s);
+#endif
+	csOld += csNew;
+	CStatic_Debug_out.SetWindowText(csOld);
+	return;
+}
+
+void dbgOut(const char* f, ...)
+{
+	char outbuf[1024];
+	memset(outbuf, 0, sizeof(outbuf));
+	va_list vl;
+	va_start(vl, f);
+	_vsnprintf(outbuf, sizeof(outbuf)-1, f, vl);
+	va_end(vl);
+	g_wnd->myDbgOut0(outbuf);
+}
+
 void progress_crypto(double val)
 {
-	char buf[1024] = {0};
-	sprintf(buf, "%f", val);
-	g_wnd->myDbgOut(0, buf, 0);
+	//char buf[1024] = {0};
+	//sprintf(buf, "%f", val);
+	//g_wnd->myDbgOut(0, buf, 0);
+	dbgOut("len : %f", val);
 }
 void CbasedmDlg::OnBnClickedStart()
 {
@@ -271,4 +314,40 @@ void CbasedmDlg::OnBnClickedDecrypto()
 	bdm_set_cb(dbg_out, progress_crypto);
 	memcpy(kbuf, cryptokey.c_str(), 16);
 	bdm_d_file(strPathAndFile.c_str(), kbuf, 16);
+}
+
+
+void CbasedmDlg::OnBnClickedStitch()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	// he bing
+}
+
+
+void CbasedmDlg::OnBnClickedSliceFile()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	// chai fen
+	CString strFilePath;
+	CString strCrK;
+	unsigned char kbuf[16] = "";
+
+	GetDlgItemText(IDC_CRYPTO_KEY, strCrK);
+	string cryptokey = strCrK.GetBuffer();
+	cryptokey = GBToUTF8(cryptokey.c_str());
+
+	if (2 < cryptokey.length())
+	{
+		myDbgOut(-1, "key len error!", cryptokey.length());
+		return;
+	}
+
+	GetDlgItemText(IDC_SOURCE_FILE, strFilePath);
+	std::string strPathAndFile = strFilePath.GetBuffer();
+	strPathAndFile = GBToUTF8(strPathAndFile.c_str());
+	int nPos = strPathAndFile.rfind("\\");
+	std::string strFile = strPathAndFile.substr(nPos+1, strPathAndFile.size());
+
+	bdm_set_cb(dbg_out, progress_crypto);
+	bdm_slice_file(strPathAndFile.c_str(), atoi(cryptokey.c_str()));
 }
